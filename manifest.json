@@ -1,0 +1,15 @@
+{
+    "name": "Display Headers",
+    "version": "0.0.1",
+    "app": {
+        "launch": {
+            "local_path": "background.html"
+        }
+    },
+    "permissions": [
+        "webRequest",
+        "http://*/*",
+        "https://*/*"
+    ],
+    "manifest_version": 2
+}
