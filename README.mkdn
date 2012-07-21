@@ -1,8 +1,8 @@
-Display Headers
-===============
+Display HTTP Headers
+====================
 
-This is a Google Chrom App, which simpliy display
-request and response headers.
+This is a Google Chrome App, which simply display
+HTTP request and response headers.
 
 
 ks0608
