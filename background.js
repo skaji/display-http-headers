@@ -33,6 +33,7 @@ var callback = function (request_or_response) {
                 return;
             }
         }
+        //console.log(details);
         var $div = $("<div></div>")
             .attr("id", request_or_response + requestId)
             .addClass(request_or_response);
@@ -40,9 +41,11 @@ var callback = function (request_or_response) {
         var $ul = $("<ul></ul>");
         if (request_or_response === "request") {
             $ul.append($li("method", details.method));
+            $ul.append($li("url", url));
         }
-        $ul.append($li("url", url));
-
+        else {
+            $ul.append($li("statusLine", details.statusLine));
+        }
         for (var i = 0; i < length; i++) {
             $ul.append($li(header[i].name, header[i].value));
         }
