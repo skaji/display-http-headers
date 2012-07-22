@@ -7,7 +7,7 @@ if (url !== "") {
         $("#url").val(url);
     }
     catch (e) {
-        console.error(e);
+        console.error(e.message);
     }
 }
 
