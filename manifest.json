@@ -1,5 +1,6 @@
 {
-    "name": "Display Headers",
+    "name": "Display HTTP Headers",
+    "description": "Simply display HTTP request and response headers.",
     "version": "0.0.1",
     "app": {
         "launch": {

@@ -1,45 +1,26 @@
 var regexp_url;
-var vars = getUrlVars();
-if ("url" in vars) {
+var url = getParam("url");
+
+if (url !== "") {
     try {
-        regexp_url = new RegExp(vars.url);
-        $("#url").val(vars.url);
+        regexp_url = new RegExp(url);
+        $("#url").val(url);
     }
     catch (e) {
         console.error(e);
-        regexp_url = undefined;
     }
 }
 
-function getUrlVars() {
-    var vars = [], hash;
-    var hashes = window.location.href.slice(window.location.href.indexOf('#!/') + 3).split('&');
-    for (var i = 0; i < hashes.length; i++) {
-        hash = hashes[i].split('=');
-        vars.push(hash[0]);
-        vars[hash[0]] = decodeURIComponent(hash[1]);
-    }
-    return vars;
+function getParam(key) {
+    var value = "";
+    location.search.substring(1).split('&').forEach(function (elem) {
+        var param = elem.split("=");
+        if (param.length === 2 && param[0] === key) {
+            value = decodeURIComponent(param[1]);
+        }
+    });
+    return value;
 }
-
-function filter_url() {
-    var url = $('#url').val();
-//    location.href = "background.html"
-//        + (url === '' ? '' : '#!/url=' + encodeURIComponent(url));
-    location.href = "background.html" +
-        '#!/url=' + encodeURIComponent(url);
-    location.reload();
-}
-$("#button").click(function () {
-    filter_url();
-});
-
-$("#url").keypress(function (event) {
-    var enter_key = 13;
-    if (event.which === enter_key) {
-        filter_url();
-    }
-});
 
 var callback = function (request_or_response) {
     return function (details) {
@@ -77,6 +58,7 @@ var callback = function (request_or_response) {
         }
     };
 };
+
 function $li(key, value) {
     return $("<li></li>")
         .append(
@@ -88,28 +70,14 @@ function $li(key, value) {
 
 var callback_request  = callback("request");
 var callback_response = callback("response");
-var filter = {
-    urls: [
-        "<all_urls>"
-    ]
-};
-var opt_extraInfoSpec = function (request_or_response) {
-    return [
-        request_or_response + "Headers"
-    ];
-};
-var opt_extraInfoSpec_request  = opt_extraInfoSpec("request");
-var opt_extraInfoSpec_response = opt_extraInfoSpec("response");
-
-
 
 chrome.webRequest.onSendHeaders.addListener(
     callback_request,
-    filter,
-    opt_extraInfoSpec_request
+    {urls:["<all_urls>"]},
+    ["requestHeaders"]
 );
 chrome.webRequest.onHeadersReceived.addListener(
     callback_response,
-    filter,
-    opt_extraInfoSpec_response
+    {urls:["<all_urls>"]},
+    ["responseHeaders"]
 );
